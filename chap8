@@ -1,3 +1,7 @@
+/*
+The original swap_cr won't compile as you can't modify a constant.
+Solution: create two temp values.
+*/
 #include <iostream>
 #include <algorithm>
 
