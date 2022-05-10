@@ -1,65 +1,164 @@
-#include "std_lib_facilities.h"
-//17.4
-void print_array10(ostream& os, int* a)
+//part 1.1
+#include<iostream>
+using namespace std;
+ostream& print_array(ostream& os, int* a, int n)
 {
-	for (int i = 0;i < 10; i++)
-		os << "[" << a[i] << "]" << " ";
-	cout << endl;
+    for (int i = 0; i < n; ++i)
+    {
+        cout << a[i] << ' ';
+    }
+    cout << '\n';
+    return os;
 }
-//17.7
-void print_array(ostream& os, int* a,int n)
+
+void fill (int* a, int size)
 {
-	for (int i = 0;i < n; i++)
-		os << "[" << a[i] << "]" << " ";
-	cout << endl;
+    int x = 100;
+    for (int i = 0; i < size; ++i)
+    {
+        a[i] = x;
+        ++x;
+    }
 }
-//17.10
-void print_vector(ostream& os, vector <int>& v )
+//part 1.2
+ostream& print_vector(ostream& os, vector<int>& v, int n)
 {
-	for (int i :v)
-		os << "[" << i << "]" << " ";
-	cout << endl;
+    for (int i = 0; i < n; ++i)
+    {
+        cout << v[i] << ' ';
+    }
+    cout << '\n';
+    return os;
 }
+
+void fill (vector<int>& v, int size)
+{
+    int x = 100;
+    for (int& v : v)
+    {
+        v = x;
+        ++x;
+    }
+}
+
 int main()
-{ //1st
-	//int n = whatever we need it for the print array;
-	int* arr = new int[10] {1,2,3,4,5,6,7,8,9,10};
-    //2nd
-	for (int i = 0;i < 10;i++)
-		cout << arr[i] << " ";
-		cout << endl;
-	// 3rd
-	delete[] arr;
-	// 4th
-	cout << endl;
-	cout << "Array representation below:" << endl;
-	int* arr2 = new int[10]{ 100,101,102,103,104,105,106,107,108,109 };
-	print_array10(cout, arr2);
-	delete[] arr2;
-	//6th
-	int* arr3 = new int[11]{ 100,101,102,103,104,105,106,107,108,109,110 };
-    print_array10 (cout, arr3);
-	delete[] arr3;
-	//8th
-	int* arr4 = new int[20]{ 100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119 };
-	print_array(cout, arr4, 20);
-	delete[] arr4;
-	// ----------------------------------------------
-	cout << endl;
-	cout << "Vector representation below:\n";
-	//10th
-	vector <int> vect;
-	vect.reserve(10);
-	vect = { 100,101,102,103,104,105,106,107,108,109 };
-	print_vector(cout, vect);
+{
+    int n = 20;
+    vector<int> v(n);
+    fill(v, n);
+    print_vector(cout, v, n);
 
-	vector <int> vect2;
-	vect2 = { 100,101,102,103,104,105,106,107,108,109,110 };
-	print_vector(cout, vect2);
-
-	vector <int> vect3;
-	vect3 = { 100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119 };
-	print_vector(cout, vect3);
-
-	return 0;
+    return 0;
 }
+//part 1
+ostream& print_array10(ostream& os, int* a)
+{
+    for (int i = 0; i < sizeof(a); ++i)
+    {
+        cout << a[i] << ' ';
+    }
+    cout << '\n';
+    return os;
+}
+
+void fill (int* a, int size)
+{
+    int x = 100;
+    for (int i = 0; i < size; ++i)
+    {
+        a[i] = x;
+        ++x;
+    }
+}
+
+int main()
+{
+    int* arr = new int[10];
+
+    // Fill array
+    fill(arr, 10);
+
+    // Print array
+    print_array10(cout, arr);
+
+    // Deallocation 
+    delete[] arr;
+
+
+    return 0;
+}
+ // part 
+void fill (int* a, int size)
+{
+    int x = 1;
+    for (int i = 0; i < size; ++i)
+    {
+        a[i] = x;
+        x *= 2;
+    }
+}
+
+ostream& print_array(ostream& os, int* a, int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        cout << a[i] << ' ';
+    }
+    cout << '\n';
+    return os;
+}
+
+
+int main()
+try {
+    // Arrays and Pointers
+    int x = 7;
+    int* p1 = &x;
+
+    cout << "Pointer " << p1 << " point to " << *p1 << '\n';
+
+    int* p2 = new int[7];
+    fill(p2, 7);
+    cout << "Array elements: ";
+    print_array(cout, p2, 7);
+
+    int* p3 = p2;
+    p2 = p1;
+    p2 = p3;
+
+    cout << "Pointer " << p1 << " point to " << *p1 << '\n';
+    cout << "Pointer " << p2 << " point to " << *p2 << '\n';
+
+    delete[] p2;
+
+    p1 = new int[10];
+    fill(p1, 10);
+
+    p2 = new int[10];
+
+    cout << "Array elements: ";
+    for(int i = 0; i < 10; ++i)
+        p2[i] = p1[i];
+    
+    print_array(cout, p2, 10);
+
+    // Vectors
+    vector<int> v1 {1, 2, 4, 8, 16, 32, 64, 128, 256, 512};
+    vector<int> v2 (10);
+    v2 = v1;
+    cout << "Vector elements: ";
+    for (int v : v2) cout << v << ' ';
+    cout << '\n';
+
+    return 0;
+} 
+catch(exception& e) {
+    cerr << "Exception " << e.what() << '\n';
+    return 1;
+}
+catch(...){
+    cerr << "Unknown exception\n";
+    return 2;
+}
+
+
